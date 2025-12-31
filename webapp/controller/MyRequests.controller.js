@@ -68,16 +68,53 @@ sap.ui.define([
                 var aSearchFilters = [
                     new Filter("id", FilterOperator.Contains, sSearchFilter),
                     new Filter("category", FilterOperator.Contains, sSearchFilter),
-                    new Filter("description", FilterOperator.Contains, sSearchFilter)
+                    new Filter("description", FilterOperator.Contains, sSearchFilter),
+                    new Filter("priority", FilterOperator.Contains, sSearchFilter)
                 ];
-                aFilters.push(new Filter({ filters: aSearchFilters, and: false }));
+                aFilters.push(new Filter({ 
+                    filters: aSearchFilters, 
+                    and: false  // OR between search fields
+                }));
             }
             
-            // Apply combined filters
+            // Apply combined filters (AND between status and search)
             if (aFilters.length > 0) {
-                oBinding.filter(new Filter({ filters: aFilters, and: true }));
+                oBinding.filter(new Filter({ 
+                    filters: aFilters, 
+                    and: true 
+                }));
             } else {
                 oBinding.filter([]);
+            }
+            
+            // Update item count display
+            this._updateItemCount();
+        },
+
+        _updateItemCount: function() {
+            var oTable = this.byId("requestsTable");
+            if (!oTable) return;
+            
+            var oBinding = oTable.getBinding("items");
+            if (!oBinding) return;
+            
+            // Get filtered length
+            var aContexts = oBinding.getCurrentContexts();
+            var iFilteredCount = aContexts ? aContexts.length : 0;
+            
+            // Get total length
+            var oModel = this.getOwnerComponent().getModel("requestsModel");
+            var aAllRequests = oModel.getProperty("/requests") || [];
+            var iTotalCount = aAllRequests.length;
+            
+            // Update label if needed (you might want to bind this to a model)
+            var oLabel = this.byId("itemCountLabel");
+            if (oLabel) {
+                if (iFilteredCount === iTotalCount) {
+                    oLabel.setText(this.formatItemCount(aAllRequests));
+                } else {
+                    oLabel.setText(iFilteredCount + " of " + iTotalCount + " requests");
+                }
             }
         },
 
@@ -166,8 +203,7 @@ sap.ui.define([
             });
         },
 
-        // Quick Delete action. 
-        //fixed delete icon not be triggered
+        // Quick Delete action
         onQuickDelete: function(oEvent) {
             var oButton = oEvent.getSource();
             var oContext = oButton.getBindingContext("requestsModel");
@@ -198,6 +234,9 @@ sap.ui.define([
             oModel.setProperty("/requests", aRequests);
             
             MessageToast.show(oBundle.getText("msgRequestDeleted"));
+            
+            // Update filters after deletion
+            this._applyCombinedFilters();
         },
 
         // Formatter functions
@@ -233,6 +272,28 @@ sap.ui.define([
 
         onAfterRendering: function() {
             console.log("MyRequests view rendered");
+            this._updateItemCount();
+        },
+        
+        // Debug function to check filters
+        debugFilters: function() {
+            var oViewModel = this.getView().getModel("viewModel");
+            console.log("Current filters:", {
+                statusFilter: oViewModel.getProperty("/statusFilter"),
+                searchFilter: oViewModel.getProperty("/searchFilter")
+            });
+            
+            var oTable = this.byId("requestsTable");
+            if (oTable) {
+                var oBinding = oTable.getBinding("items");
+                if (oBinding) {
+                    var aFilters = oBinding.getFilters();
+                    console.log("Applied filters:", aFilters);
+                    
+                    var aContexts = oBinding.getCurrentContexts();
+                    console.log("Filtered items:", aContexts ? aContexts.length : 0);
+                }
+            }
         }
     });
 });
