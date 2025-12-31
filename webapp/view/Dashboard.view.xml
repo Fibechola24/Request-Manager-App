@@ -4,22 +4,45 @@
     xmlns:l="sap.ui.layout"
     controllerName="ui5.requestmanagerapp.controller.Dashboard"
     displayBlock="true">
-    
+
     <Page title="{i18n>dashboardTitle}">
         <content>
             <l:VerticalLayout class="sapUiContentPadding" width="100%">
                 <Title text="{i18n>dashboardWelcome}" level="H2" />
-                <Text text="{i18n>dashboardIntro}" class="sapUiSmallMarginBottom"/>
-                
+                <Text text="{i18n>dashboardIntro}" class="sapUiSmallMarginBottom" />
+
                 <l:HorizontalLayout allowWrapping="true" class="sapUiSmallMarginTop">
-                    <Button text="{i18n>tileCreateHeader}" 
-                            press=".onNavigateToCreate"
-                            type="Emphasized"
-                            class="sapUiTinyMarginEnd"/>
-                    
-                    <Button text="{i18n>tileMyRequestsHeader}" 
-                            press=".onNavigateToMyRequests"
-                            class="sapUiTinyMarginEnd"/>
+
+                    <GenericTile
+                        header="{i18n>tileCreateHeader}"
+                        subheader="{i18n>tileCreateSubheader}"
+                        press=".onNavigateToCreate"
+                        class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent value="+" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="{i18n>tileMyRequestsHeader}"
+                        subheader="{i18n>tileMyRequestsSubheader}"
+                        press=".onNavigateToMyRequests"
+                        class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent value="📋" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Help"
+                        subheader="Get assistance"
+                        press=".onHelp"
+                        class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent value="?" />
+                        </TileContent>
+                    </GenericTile>
+
                 </l:HorizontalLayout>
             </l:VerticalLayout>
         </content>
