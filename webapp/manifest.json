@@ -52,14 +52,14 @@
         "routes": [
           {
             "pattern": "",
-            "name": "home",
-            "target": "home"
+            "name": "dashboard",
+            "target": "dashboard"
           }
         ],
         "targets": {
-          "home": {
-            "viewName": "App",
-            "viewId": "homeView"
+          "dashboard": {
+            "viewName": "Dashboard",
+            "viewId": "Dashboard"
           }
         }
       }

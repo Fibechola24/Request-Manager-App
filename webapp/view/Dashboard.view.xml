@@ -1,0 +1,27 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    controllerName="ui5.requestmanagerapp.controller.Dashboard"
+    displayBlock="true">
+    
+    <Page title="{i18n>dashboardTitle}">
+        <content>
+            <l:VerticalLayout class="sapUiContentPadding" width="100%">
+                <Title text="{i18n>dashboardWelcome}" level="H2" />
+                <Text text="{i18n>dashboardIntro}" class="sapUiSmallMarginBottom"/>
+                
+                <l:HorizontalLayout allowWrapping="true" class="sapUiSmallMarginTop">
+                    <Button text="{i18n>tileCreateHeader}" 
+                            press=".onNavigateToCreate"
+                            type="Emphasized"
+                            class="sapUiTinyMarginEnd"/>
+                    
+                    <Button text="{i18n>tileMyRequestsHeader}" 
+                            press=".onNavigateToMyRequests"
+                            class="sapUiTinyMarginEnd"/>
+                </l:HorizontalLayout>
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>

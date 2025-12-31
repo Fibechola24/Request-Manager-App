@@ -24,6 +24,7 @@ sap.ui.define([
             });
             this.setModel(oModel);
             
+            // Initialize router
             this.getRouter().initialize();
         }
     });
