@@ -1,21 +1,10 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageToast",
-    "sap/m/MessageBox"
-], function(Controller, MessageToast, MessageBox) {
+    "sap/m/MessageBox",
+    "sap/ui/model/json/JSONModel"
+], function(Controller, MessageToast, MessageBox, JSONModel) {
     "use strict";
-
-    function _newId() {
-        return "REQ-" + Date.now();
-    }
-
-    function _todayISO() {
-        var d = new Date();
-        var yyyy = d.getFullYear();
-        var mm = String(d.getMonth() + 1).padStart(2, "0");
-        var dd = String(d.getDate()).padStart(2, "0");
-        return yyyy + "-" + mm + "-" + dd;
-    }
 
     return Controller.extend("ui5.requestmanagerapp.controller.CreateRequest", {
         onInit: function() {
@@ -40,7 +29,7 @@ sap.ui.define([
             var oDesc = this.byId("descArea");
             
             if (!oCategory || !oPriority || !oDesc) {
-                MessageBox.error("Form elements not found");
+                MessageBox.error("Please reload the page");
                 return;
             }
 
@@ -53,43 +42,50 @@ sap.ui.define([
                 return;
             }
 
-            // Get the component
+            // Get or create model
             var oComponent = this.getOwnerComponent();
-            if (!oComponent) {
-                MessageBox.error("Component not found");
-                return;
-            }
-
-            // Get the requests model
             var oRequestsModel = oComponent.getModel("requestsModel");
+            
             if (!oRequestsModel) {
-                // Create the model if it doesn't exist
-                oRequestsModel = new sap.ui.model.json.JSONModel({
-                    requests: []
-                });
+                oRequestsModel = new JSONModel({ requests: [] });
                 oComponent.setModel(oRequestsModel, "requestsModel");
             }
 
             // Get current requests
             var aRequests = oRequestsModel.getProperty("/requests") || [];
 
-            // Add new request
-            aRequests.unshift({
-                id: _newId(),
+            // Create new request
+            var newRequest = {
+                id: "REQ-" + Date.now(),
                 category: sCategory,
                 priority: sPriority,
                 description: sDesc,
                 status: "Open",
-                createdOn: _todayISO()
-            });
+                createdOn: new Date().toISOString().split('T')[0]
+            };
+
+            console.log("Adding request:", newRequest);
+
+            // Add to beginning of array
+            aRequests.unshift(newRequest);
 
             // Update model
             oRequestsModel.setProperty("/requests", aRequests);
-            MessageToast.show(oBundle.getText("msgRequestCreated"));
+            
+            // Show success message with longer duration
+            MessageToast.show(oBundle.getText("msgRequestCreated"), {
+                duration: 5000,
+                width: "25em"
+            });
 
-            // Reset form and navigate back
+            // Reset form immediately (optional)
             this._resetForm();
-            this.getOwnerComponent().getRouter().navTo("dashboard");
+            
+            // Navigate back to dashboard after 2 seconds
+            var that = this;
+            setTimeout(function() {
+                that.getOwnerComponent().getRouter().navTo("dashboard");
+            }, 2000);
         },
 
         _resetForm: function() {
