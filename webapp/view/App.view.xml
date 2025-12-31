@@ -1,0 +1,25 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    controllerName="ui5.requestmanagerapp.controller.App"
+    displayBlock="true">
+    
+    <App id="app">
+        <pages>
+            <Page title="{i18n>appTitle}">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="Welcome to IT Request Manager" level="H2"/>
+                        <Text text="Application is running successfully!" 
+                              class="sapUiSmallMarginTop"/>
+                        <Button text="Test Button" 
+                                press=".onTestPress"
+                                type="Emphasized"
+                                class="sapUiSmallMarginTop"/>
+                        <Text text="{/welcome}" class="sapUiSmallMarginTop"/>
+                    </VBox>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>
