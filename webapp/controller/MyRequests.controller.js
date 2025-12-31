@@ -113,7 +113,8 @@ sap.ui.define(
           });
         }
       },
-      formatPriorityState: function (sPriority) {    //Added formatter functions:
+      formatPriorityState: function (sPriority) {
+        //Added formatter functions:
         if (sPriority === "Critical") return "Error";
         if (sPriority === "High") return "Error";
         if (sPriority === "Medium") return "Warning";
@@ -133,6 +134,82 @@ sap.ui.define(
         if (sStatus === "In Progress") return "Information";
         if (sStatus === "Closed") return "Success";
         return "None";
+      },
+      onExport: function () {
+        var oBundle = this.getOwnerComponent()
+          .getModel("i18n")
+          .getResourceBundle();
+        var oModel = this.getOwnerComponent().getModel("requestsModel");
+        var aRequests = oModel.getProperty("/requests") || [];
+
+        if (aRequests.length === 0) {
+          MessageToast.show(oBundle.getText("msgExportEmpty"));
+          return;
+        }
+
+        // Create CSV content
+        var sCsv = this._convertToCSV(aRequests);
+
+        // Create download link
+        var sFileName = oBundle.getText("exportFileName", [
+          new Date().toISOString().slice(0, 10),
+        ]);
+        this._downloadCSV(sCsv, sFileName);
+
+        MessageToast.show(
+          oBundle.getText("msgExportSuccess", [aRequests.length])
+        );
+      },
+
+      _convertToCSV: function (aRequests) {
+        // CSV headers
+        var aHeaders = [
+          "ID",
+          "Category",
+          "Priority",
+          "Status",
+          "Created On",
+          "Description",
+        ];
+        var sCsv = aHeaders.join(",") + "\n";
+
+        // Add data rows
+        aRequests.forEach(function (oRequest) {
+          var aRow = [
+            '"' + (oRequest.id || "") + '"',
+            '"' + (oRequest.category || "") + '"',
+            '"' + (oRequest.priority || "") + '"',
+            '"' + (oRequest.status || "") + '"',
+            '"' + (oRequest.createdOn || "") + '"',
+            '"' + (oRequest.description || "").replace(/"/g, '""') + '"', // Escape quotes
+          ];
+          sCsv += aRow.join(",") + "\n";
+        });
+
+        return sCsv;
+      },
+
+      _downloadCSV: function (sCsv, sFileName) {
+        var sBlob = new Blob(["\ufeff", sCsv], {
+          type: "text/csv;charset=utf-8;",
+        });
+
+        if (navigator.msSaveBlob) {
+          // IE
+          navigator.msSaveBlob(sBlob, sFileName);
+        } else {
+          // Other browsers
+          var sLink = document.createElement("a");
+          if (sLink.download !== undefined) {
+            var sUrl = URL.createObjectURL(sBlob);
+            sLink.setAttribute("href", sUrl);
+            sLink.setAttribute("download", sFileName);
+            sLink.style.visibility = "hidden";
+            document.body.appendChild(sLink);
+            sLink.click();
+            document.body.removeChild(sLink);
+          }
+        }
       },
     });
   }
