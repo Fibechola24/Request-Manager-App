@@ -92,6 +92,19 @@ sap.ui.define([
                 return "Success";
             }
             return "None";
+        },
+
+        onSelectionChange: function(oEvent) {
+            var oSelectedItem = oEvent.getParameter("listItem");
+            if (oSelectedItem) {
+                var oContext = oSelectedItem.getBindingContext("requestsModel");
+                var oRequest = oContext.getObject();
+                
+                // Navigate to details view
+                this.getOwnerComponent().getRouter().navTo("details", {
+                    requestId: oRequest.id
+                });
+            }
         }
     });
 });

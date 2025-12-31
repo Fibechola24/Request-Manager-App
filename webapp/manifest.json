@@ -65,6 +65,11 @@
           "pattern": "myrequests",
           "name": "myrequests",
           "target": "myrequests"
+        },
+        {
+          "pattern": "details/{requestId}",
+          "name": "details",
+          "target": "details"
         }
       ],
       "targets": {
@@ -79,6 +84,11 @@
         "myrequests": {
           "viewName": "MyRequests",
           "viewId": "MyRequests"
+        },
+        "details": {
+          "viewName": "RequestDetails",
+          "viewId": "RequestDetails",
+          "transition": "slide"
         }
       }
     }
