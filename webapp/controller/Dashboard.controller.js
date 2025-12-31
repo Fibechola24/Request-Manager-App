@@ -1,7 +1,6 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast"
-], function(Controller, MessageToast) {
+    "sap/ui/core/mvc/Controller"
+], function(Controller) {
     "use strict";
 
     return Controller.extend("ui5.requestmanagerapp.controller.Dashboard", {
@@ -14,7 +13,7 @@ sap.ui.define([
         },
 
         onNavigateToMyRequests: function() {
-            MessageToast.show("My Requests will be implemented in Phase 3");
+            this.getOwnerComponent().getRouter().navTo("myrequests");
         }
     });
 });

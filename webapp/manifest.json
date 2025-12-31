@@ -59,6 +59,11 @@
           "pattern": "create",
           "name": "create",
           "target": "create"
+        },
+        {
+          "pattern": "myrequests",
+          "name": "myrequests",
+          "target": "myrequests"
         }
       ],
       "targets": {
@@ -69,6 +74,10 @@
         "create": {
           "viewName": "CreateRequest",
           "viewId": "CreateRequest"
+        },
+        "myrequests": {
+          "viewName": "MyRequests",
+          "viewId": "MyRequests"
         }
       }
     }

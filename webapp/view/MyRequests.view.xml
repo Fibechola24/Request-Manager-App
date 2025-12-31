@@ -1,0 +1,50 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    controllerName="ui5.requestmanagerapp.controller.MyRequests"
+    displayBlock="true">
+    
+    <Page title="{i18n>myRequestsPageTitle}" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+            <l:VerticalLayout class="sapUiContentPadding" width="100%">
+                
+                <SearchField
+                    width="100%"
+                    placeholder="{i18n>searchPlaceholder}"
+                    liveChange=".onSearch"
+                    class="sapUiSmallMarginBottom"/>
+                
+                <Table
+                    id="requestsTable"
+                    items="{requestsModel>/requests}"
+                    width="auto">
+                    
+                    <columns>
+                        <Column width="12em"><Text text="{i18n>colId}"/></Column>
+                        <Column width="10em"><Text text="{i18n>colCategory}"/></Column>
+                        <Column width="8em"><Text text="{i18n>colPriority}"/></Column>
+                        <Column width="8em"><Text text="{i18n>colStatus}"/></Column>
+                        <Column width="10em"><Text text="{i18n>colCreatedOn}"/></Column>
+                    </columns>
+                    
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{requestsModel>id}"/>
+                                <Text text="{requestsModel>category}"/>
+                                <Text text="{requestsModel>priority}"/>
+                                <ObjectStatus 
+                                    text="{requestsModel>status}"
+                                    state="{= ${requestsModel>status} === 'Open' ? 'Warning' : 
+                                            ${requestsModel>status} === 'In Progress' ? 'Information' : 'Success'}"/>
+                                <Text text="{requestsModel>createdOn}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>
