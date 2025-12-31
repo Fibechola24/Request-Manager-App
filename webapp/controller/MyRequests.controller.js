@@ -113,7 +113,7 @@ sap.ui.define(
           });
         }
       },
-      formatPriorityState: function (sPriority) {
+      formatPriorityState: function (sPriority) {    //Added formatter functions:
         if (sPriority === "Critical") return "Error";
         if (sPriority === "High") return "Error";
         if (sPriority === "Medium") return "Warning";
