@@ -10,11 +10,11 @@ sap.ui.define([
         },
 
         onNavigateToCreate: function() {
-            MessageToast.show("Create Request navigation will be implemented in Phase 2");
+            this.getOwnerComponent().getRouter().navTo("create");
         },
 
         onNavigateToMyRequests: function() {
-            MessageToast.show("My Requests navigation will be implemented in Phase 3");
+            MessageToast.show("My Requests will be implemented in Phase 3");
         }
     });
 });

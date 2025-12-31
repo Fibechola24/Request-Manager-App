@@ -1,67 +1,76 @@
 {
-    "_version": "1.65.0",
-    "sap.app": {
-      "id": "ui5.requestmanagerapp",
-      "i18n": "i18n/i18n.properties",
-      "title": "{{appTitle}}",
-      "description": "Manage IT Requests",
-      "type": "application",
-      "applicationVersion": {
-        "version": "1.0.0"
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "ui5.requestmanagerapp",
+    "i18n": "i18n/i18n.properties",
+    "title": "{{appTitle}}",
+    "description": "Manage IT Requests",
+    "type": "application",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.108.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {}
       }
     },
-    "sap.ui": {
-      "technology": "UI5",
-      "deviceTypes": {
-        "desktop": true,
-        "tablet": true,
-        "phone": true
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleUrl": "i18n/i18n.properties"
+        }
       }
     },
-    "sap.ui5": {
-      "dependencies": {
-        "minUI5Version": "1.108.0",
-        "libs": {
-          "sap.ui.core": {},
-          "sap.m": {}
-        }
-      },
-      "models": {
-        "i18n": {
-          "type": "sap.ui.model.resource.ResourceModel",
-          "settings": {
-            "bundleUrl": "i18n/i18n.properties"
-          }
-        }
-      },
-      "rootView": {
-        "viewName": "ui5.requestmanagerapp.view.App",
-        "type": "XML",
-        "id": "app",
+    "rootView": {
+      "viewName": "ui5.requestmanagerapp.view.App",
+      "type": "XML",
+      "id": "app",
+      "async": true
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "ui5.requestmanagerapp.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
         "async": true
       },
-      "routing": {
-        "config": {
-          "routerClass": "sap.m.routing.Router",
-          "viewType": "XML",
-          "viewPath": "ui5.requestmanagerapp.view",
-          "controlId": "app",
-          "controlAggregation": "pages",
-          "async": true
+      "routes": [
+        {
+          "pattern": "",
+          "name": "dashboard",
+          "target": "dashboard"
         },
-        "routes": [
-          {
-            "pattern": "",
-            "name": "dashboard",
-            "target": "dashboard"
-          }
-        ],
-        "targets": {
-          "dashboard": {
-            "viewName": "Dashboard",
-            "viewId": "Dashboard"
-          }
+        {
+          "pattern": "create",
+          "name": "create",
+          "target": "create"
+        }
+      ],
+      "targets": {
+        "dashboard": {
+          "viewName": "Dashboard",
+          "viewId": "Dashboard"
+        },
+        "create": {
+          "viewName": "CreateRequest",
+          "viewId": "CreateRequest"
         }
       }
     }
   }
+}
