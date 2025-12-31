@@ -166,7 +166,8 @@ sap.ui.define([
             });
         },
 
-        // Quick Delete action
+        // Quick Delete action. 
+        //fixed delete icon not be triggered
         onQuickDelete: function(oEvent) {
             var oButton = oEvent.getSource();
             var oContext = oButton.getBindingContext("requestsModel");
