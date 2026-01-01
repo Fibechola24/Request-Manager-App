@@ -1,0 +1,186 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+    controllerName="ui5.requestmanagerapp.controller.Statistics"
+    displayBlock="true">
+    
+    <Page title="{i18n>statsPageTitle}" showNavButton="true" navButtonPress=".onNavBack">
+        <content>
+            <l:VerticalLayout class="sapUiContentPadding" width="100%">
+                
+                <!-- Stats Cards -->
+                <l:Grid containerQuery="true" defaultSpan="L12 M12 S12" class="sapUiSmallMarginBottom">
+                    <l:content>
+                        
+                        <!-- Total Requests Card -->
+                        <GenericTile header="{i18n>statsTotalRequests}" subheader="All time" class="sapUiTinyMargin">
+                            <TileContent unit="{i18n>requests}" footer="{i18n>statsUpdatedJustNow}">
+                                <NumericContent value="{statsModel>/totalRequests}" 
+                                              valueColor="Good"
+                                              scale=""
+                                              withMargin="false"/>
+                            </TileContent>
+                        </GenericTile>
+                        
+                        <!-- Open Requests Card -->
+                        <GenericTile header="{i18n>statsOpenRequests}" subheader="Require attention" class="sapUiTinyMargin">
+                            <TileContent unit="{i18n>requests}" footer="Active">
+                                <NumericContent value="{statsModel>/openRequests}" 
+                                              valueColor="Error"
+                                              scale=""
+                                              withMargin="false"/>
+                            </TileContent>
+                        </GenericTile>
+                        
+                        <!-- In Progress Card -->
+                        <GenericTile header="{i18n>statsInProgress}" subheader="Being worked on" class="sapUiTinyMargin">
+                            <TileContent unit="{i18n>requests}">
+                                <NumericContent value="{statsModel>/inProgress}" 
+                                              valueColor="Critical"
+                                              scale=""
+                                              withMargin="false"/>
+                            </TileContent>
+                        </GenericTile>
+                        
+                        <!-- Closed Card -->
+                        <GenericTile header="{i18n>statsClosedRequests}" subheader="Completed" class="sapUiTinyMargin">
+                            <TileContent unit="{i18n>requests}" footer="Resolved">
+                                <NumericContent value="{statsModel>/closedRequests}" 
+                                              valueColor="Good"
+                                              scale=""
+                                              withMargin="false"/>
+                            </TileContent>
+                        </GenericTile>
+                        
+                    </l:content>
+                </l:Grid>
+                
+                <!-- Charts Row -->
+                <l:Grid containerQuery="true" defaultSpan="L6 M12 S12">
+                    <l:content>
+                        
+                        <!-- Status Distribution Pie Chart -->
+                        <Panel headerText="{i18n>statsStatusDistribution}" expandable="true" expanded="true">
+                            <content>
+                                <viz:VizFrame id="statusChart" 
+                                            uiConfig="{applicationSet:'fiori'}"
+                                            height="300px"
+                                            width="100%">
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset data="{statsModel>/statusData}">
+                                            <viz.data:dimensions>
+                                                <viz.data:DimensionDefinition name="Status" value="{status}"/>
+                                            </viz.data:dimensions>
+                                            <viz.data:measures>
+                                                <viz.data:MeasureDefinition name="Count" value="{count}"/>
+                                            </viz.data:measures>
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem uid="color" type="Dimension" values="Status"/>
+                                        <viz.feeds:FeedItem uid="value" type="Measure" values="Count"/>
+                                    </viz:feeds>
+                                </viz:VizFrame>
+                            </content>
+                        </Panel>
+                        
+                        <!-- Category Distribution Bar Chart -->
+                        <Panel headerText="{i18n>statsCategoryDistribution}" expandable="true" expanded="true">
+                            <content>
+                                <viz:VizFrame id="categoryChart" 
+                                            uiConfig="{applicationSet:'fiori'}"
+                                            vizType="stacked_column"
+                                            height="300px"
+                                            width="100%">
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset data="{statsModel>/categoryData}">
+                                            <viz.data:dimensions>
+                                                <viz.data:DimensionDefinition name="Category" value="{category}"/>
+                                            </viz.data:dimensions>
+                                            <viz.data:measures>
+                                                <viz.data:MeasureDefinition name="Count" value="{count}"/>
+                                            </viz.data:measures>
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Category"/>
+                                        <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Count"/>
+                                    </viz:feeds>
+                                </viz:VizFrame>
+                            </content>
+                        </Panel>
+                        
+                    </l:content>
+                </l:Grid>
+                
+                <!-- Priority & Monthly Trends -->
+                <l:Grid containerQuery="true" defaultSpan="L6 M12 S12">
+                    <l:content>
+                        
+                        <!-- Priority Distribution -->
+                        <Panel headerText="{i18n>statsPriorityDistribution}" expandable="true" expanded="true">
+                            <content>
+                                <VBox class="sapUiSmallMargin">
+                                    <HBox class="sapUiTinyMarginBottom">
+                                        <ObjectStatus text="Critical" state="Error" class="sapUiTinyMarginEnd"/>
+                                        <Text text="{statsModel>/criticalCount} requests"/>
+                                    </HBox>
+                                    <HBox class="sapUiTinyMarginBottom">
+                                        <ObjectStatus text="High" state="Error" class="sapUiTinyMarginEnd"/>
+                                        <Text text="{statsModel>/highCount} requests"/>
+                                    </HBox>
+                                    <HBox class="sapUiTinyMarginBottom">
+                                        <ObjectStatus text="Medium" state="Warning" class="sapUiTinyMarginEnd"/>
+                                        <Text text="{statsModel>/mediumCount} requests"/>
+                                    </HBox>
+                                    <HBox class="sapUiTinyMarginBottom">
+                                        <ObjectStatus text="Low" state="Success" class="sapUiTinyMarginEnd"/>
+                                        <Text text="{statsModel>/lowCount} requests"/>
+                                    </HBox>
+                                </VBox>
+                            </content>
+                        </Panel>
+                        
+                        <!-- Recent Activity -->
+                        <Panel headerText="{i18n>statsRecentActivity}" expandable="true" expanded="true">
+                            <content>
+                                <List items="{statsModel>/recentActivity}">
+                                    <items>
+                                        <CustomListItem>
+                                            <HBox class="sapUiSmallMargin">
+                                                <VBox class="sapUiSmallMarginBegin">
+                                                    <Title text="{statsModel>title}" level="H3"/>
+                                                    <Text text="{statsModel>description}"/>
+                                                    <HBox class="sapUiTinyMarginTop">
+                                                        <ObjectStatus text="{statsModel>status}" 
+                                                                    state="{statsModel>statusState}"
+                                                                    class="sapUiTinyMarginEnd"/>
+                                                        <Text text="{statsModel>time}"/>
+                                                    </HBox>
+                                                </VBox>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </items>
+                                </List>
+                            </content>
+                        </Panel>
+                        
+                    </l:content>
+                </l:Grid>
+                
+            </l:VerticalLayout>
+        </content>
+        
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button text="{i18n>btnRefresh}" icon="sap-icon://refresh" press=".onRefresh"/>
+                <Button text="{i18n>btnExportStats}" icon="sap-icon://excel-attachment" press=".onExportStats"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

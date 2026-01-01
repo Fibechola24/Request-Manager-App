@@ -42,6 +42,15 @@
                             <NumericContent value="?" />
                         </TileContent>
                     </GenericTile>
+                    <GenericTile
+                        header="Statistics"
+                        subheader="View analytics"
+                        press=".onNavigateToStats"
+                        class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent value="📊" />
+                        </TileContent>
+                    </GenericTile>
 
                 </l:HorizontalLayout>
             </l:VerticalLayout>
