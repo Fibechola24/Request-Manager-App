@@ -75,6 +75,11 @@
           "pattern": "stats",
           "name": "stats",
           "target": "stats"
+        },
+        {
+          "pattern": "notifications",
+          "name": "notifications",
+          "target": "notifications"
         }
       ],
       "targets": {
@@ -99,6 +104,10 @@
           "viewName": "Statistics",
           "viewId": "Statistics",
           "transition": "fade"
+        },
+        "notifications": {
+          "viewName": "NotificationSettings",
+          "viewId": "NotificationSettings"
         }
       }
     }

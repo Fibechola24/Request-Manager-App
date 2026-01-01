@@ -97,6 +97,18 @@ sap.ui.define([
             
             oViewModel.setProperty("/editMode", false);
             oViewModel.setProperty("/originalData", null);
+            // Get old status before update
+            var oOldRequest = this.getView().getBindingContext("requestsModel").getObject();
+            var sOldStatus = oOldRequest.status;
+            
+            // Update model
+            oViewModel.setProperty("/editMode", false);
+            
+            // Send status change notification
+            this._sendStatusNotification(oRequest, sOldStatus);
+            
+            MessageToast.show(oBundle.getText("msgRequestUpdated"));
+
         },
 
         onDelete: function() {
@@ -113,6 +125,21 @@ sap.ui.define([
             });
         },
 
+        _sendStatusNotification: function(oRequest, sOldStatus) {
+            if (sOldStatus !== oRequest.status) {
+                var EmailService = sap.ui.require("ui5/requestmanagerapp/service/EmailService");
+                if (EmailService && EmailService.isNotificationsEnabled()) {
+                    var sEmail = EmailService.getUserEmail();
+                    EmailService.notifyStatusUpdate(oRequest, sOldStatus, sEmail)
+                        .then(function(response) {
+                            console.log("Status notification sent:", response);
+                        })
+                        .catch(function(error) {
+                            console.error("Failed to send notification:", error);
+                        });
+                }
+            }
+        },
         _deleteRequest: function() {
             var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
             var oRequestContext = this.getView().getBindingContext("requestsModel");

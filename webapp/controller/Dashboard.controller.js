@@ -23,6 +23,9 @@ sap.ui.define([
         },
         onNavigateToStats: function() {
             this.getOwnerComponent().getRouter().navTo("stats");
+        },
+        onNavigateToNotifications: function() {
+            this.getOwnerComponent().getRouter().navTo("notifications");
         }
     });
 });

@@ -51,6 +51,15 @@
                             <NumericContent value="📊" />
                         </TileContent>
                     </GenericTile>
+                    <GenericTile
+                        header="Notifications"
+                        subheader="Configure alerts"
+                        press=".onNavigateToNotifications"
+                        class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent value="🔔" />
+                        </TileContent>
+                    </GenericTile>
 
                 </l:HorizontalLayout>
             </l:VerticalLayout>
