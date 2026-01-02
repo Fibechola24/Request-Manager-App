@@ -34,15 +34,6 @@
                     </GenericTile>
 
                     <GenericTile
-                        header="Help"
-                        subheader="Get assistance"
-                        press=".onHelp"
-                        class="sapUiTinyMargin">
-                        <TileContent>
-                            <NumericContent value="?" />
-                        </TileContent>
-                    </GenericTile>
-                    <GenericTile
                         header="Statistics"
                         subheader="View analytics"
                         press=".onNavigateToStats"
@@ -58,6 +49,16 @@
                         class="sapUiTinyMargin">
                         <TileContent>
                             <NumericContent value="🔔" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Help"
+                        subheader="Get assistance"
+                        press=".onHelp"
+                        class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent value="?" />
                         </TileContent>
                     </GenericTile>
 

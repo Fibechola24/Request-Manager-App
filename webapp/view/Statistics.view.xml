@@ -11,53 +11,102 @@
             <ScrollContainer height="100%" vertical="true" focusable="true">
                 <l:VerticalLayout class="sapUiContentPadding" width="100%">
                     
-                    <!-- Stats Cards -->
-                    <l:Grid containerQuery="true" defaultSpan="L3 M6 S12" class="sapUiSmallMarginBottom">
+                    <!-- Title and Intro (like Dashboard) -->
+                    <Title text="{i18n>statsOverview}" level="H2" />
+                    <Text text="{i18n>statsOverviewIntro}" class="sapUiSmallMarginBottom" />
+                    
+                    <!-- Stats Cards - Using Dashboard Tile Styling -->
+                    <l:HorizontalLayout allowWrapping="true" class="sapUiSmallMarginTop">
                         
                         <!-- Total Requests -->
-                        <GenericTile header="{i18n>statsTotalRequests}" subheader="All time" class="sapUiTinyMargin">
-                            <TileContent unit="{i18n>requests}" footer="{i18n>statsUpdatedJustNow}">
-                                <NumericContent value="{statsModel>/totalRequests}" 
-                                              valueColor="Good"
-                                              scale=""
-                                              withMargin="false"/>
+                        <GenericTile
+                            header="{i18n>statsTotalRequests}"
+                            subheader="All time"
+                            press=".onTotalRequestsPress"
+                            class="sapUiTinyMargin">
+                            <TileContent>
+                                <NumericContent 
+                                    value="{statsModel>/totalRequests}" 
+                                    valueColor="Good"
+                                    withMargin="false" />
                             </TileContent>
                         </GenericTile>
                         
                         <!-- Open Requests -->
-                        <GenericTile header="{i18n>statsOpenRequests}" subheader="Require attention" class="sapUiTinyMargin">
-                            <TileContent unit="{i18n>requests}" footer="Active">
-                                <NumericContent value="{statsModel>/openRequests}" 
-                                              valueColor="Error"
-                                              scale=""
-                                              withMargin="false"/>
+                        <GenericTile
+                            header="{i18n>statsOpenRequests}"
+                            subheader="Require attention"
+                            press=".onOpenRequestsPress"
+                            class="sapUiTinyMargin">
+                            <TileContent>
+                                <NumericContent 
+                                    value="{statsModel>/openRequests}" 
+                                    valueColor="Error"
+                                    withMargin="false" />
                             </TileContent>
                         </GenericTile>
                         
                         <!-- In Progress -->
-                        <GenericTile header="{i18n>statsInProgress}" subheader="Being worked on" class="sapUiTinyMargin">
-                            <TileContent unit="{i18n>requests}">
-                                <NumericContent value="{statsModel>/inProgress}" 
-                                              valueColor="Critical"
-                                              scale=""
-                                              withMargin="false"/>
+                        <GenericTile
+                            header="{i18n>statsInProgress}"
+                            subheader="Being worked on"
+                            press=".onInProgressPress"
+                            class="sapUiTinyMargin">
+                            <TileContent>
+                                <NumericContent 
+                                    value="{statsModel>/inProgress}" 
+                                    valueColor="Critical"
+                                    withMargin="false" />
                             </TileContent>
                         </GenericTile>
                         
                         <!-- Closed -->
-                        <GenericTile header="{i18n>statsClosedRequests}" subheader="Completed" class="sapUiTinyMargin">
-                            <TileContent unit="{i18n>requests}" footer="Resolved">
-                                <NumericContent value="{statsModel>/closedRequests}" 
-                                              valueColor="Good"
-                                              scale=""
-                                              withMargin="false"/>
+                        <GenericTile
+                            header="{i18n>statsClosedRequests}"
+                            subheader="Completed"
+                            press=".onClosedRequestsPress"
+                            class="sapUiTinyMargin">
+                            <TileContent>
+                                <NumericContent 
+                                    value="{statsModel>/closedRequests}" 
+                                    valueColor="Good"
+                                    withMargin="false" />
                             </TileContent>
                         </GenericTile>
                         
-                    </l:Grid>
+                        <!-- Average Resolution Time -->
+                        <GenericTile
+                            header="Average Resolution"
+                            subheader="Days to close"
+                            press=".onAvgResolutionPress"
+                            class="sapUiTinyMargin">
+                            <TileContent>
+                                <NumericContent 
+                                    value="{statsModel>/avgResolutionDays}" 
+                                    valueColor="Neutral"
+                                    withMargin="false" />
+                            </TileContent>
+                        </GenericTile>
+                        
+                        <!-- Satisfaction Rate -->
+                        <GenericTile
+                            header="Satisfaction Rate"
+                            subheader="User feedback"
+                            press=".onSatisfactionPress"
+                            class="sapUiTinyMargin">
+                            <TileContent>
+                                <NumericContent 
+                                    value="{statsModel>/satisfactionRate}" 
+                                    valueColor="Good"
+                                    scale="%"
+                                    withMargin="false" />
+                            </TileContent>
+                        </GenericTile>
+                        
+                    </l:HorizontalLayout>
                     
-                    <!-- Status Distribution (Bar Chart alternative) -->
-                    <Panel headerText="{i18n>statsStatusDistribution}" expandable="true" expanded="true">
+                    <!-- Status Distribution -->
+                    <Panel headerText="{i18n>statsStatusDistribution}" expandable="true" expanded="true" class="sapUiSmallMarginTop">
                         <content>
                             <l:VerticalLayout class="sapUiSmallMargin">
                                 <!-- Open Status -->
@@ -159,7 +208,7 @@
                         </content>
                     </Panel>
                     
-                    <!-- Priority Distribution (Simple version) -->
+                    <!-- Priority Distribution -->
                     <Panel headerText="{i18n>statsPriorityDistribution}" expandable="true" expanded="true">
                         <content>
                             <l:VerticalLayout class="sapUiSmallMargin">
