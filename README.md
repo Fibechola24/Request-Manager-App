@@ -14,6 +14,7 @@ node -v
 npm -v
 
 3️⃣ Install UI5 Tooling
+npm install -g cli
 npm install --global @ui5/cli
 
 
