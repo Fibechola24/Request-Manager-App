@@ -13,20 +13,15 @@ Verify:
 node -v
 npm -v
 
-3️⃣ Install UI5 Tooling
-npm install -g cli
-npm install --global @ui5/cli
+## Setup & Installation
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Start development server: `npm start`
+4. Open browser: `http://localhost:8080`
 
-
-Verify:
-
-ui5 --version
-
-4️⃣ Install Project Dependencies
-npm install
-
-5️⃣ Run the App
-ui5 serve
+## Build for Production
+```bash
+npm run build
 or 
 npm start
 
